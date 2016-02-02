@@ -1,1 +1,5 @@
-C++ STRING STORES CHARS AS 16 BITS!!!! OMG
+## C++ Order_Book
+
+Reads in market data from a stream (stdin)
+
+Logs potential Income / Expense
