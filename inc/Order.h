@@ -22,23 +22,24 @@ class Order{
 	ordertype type;
 		
 	// Order constructor. default order values are invalid
-	Order(string order_id = "", float order_price = -1, 
-			int order_quantity = -1, ordertype order_type = null){
+	Order(string order_id = "", ordertype order_type = null, 
+			float order_price = -1, int order_quantity = -1){
 			 
 		id = order_id;
+		type = order_type;
 		price = order_price;
 		quantity = order_quantity;
-		type = order_type;
 		
 	}
 	
 	// Copy Constructor
-	Order(Order &copy){
+	Order(const Order &copy){
 		id = copy.id;
 		price = copy.price;
 		quantity = copy.quantity;
 		type = copy.type;
 	}
+	
 	
 	static void AddOrder(string &order_string, map<string, Order> &order_book);
 	static void ReduceOrder(string &order_string, map<string, Order> &order_book);

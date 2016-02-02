@@ -6,7 +6,8 @@
  
  #include "Order.h"
  #include "Util.h"
-
+ 
+ #undef DEBUG
 /****************************AddOrder()**********************************/
 /* Purpose: Add an order to the order book
  * Inputs: 
@@ -40,12 +41,19 @@ void Order::AddOrder(string &order_string, map<string, Order> &order_book){
 	}	
 	order_string.erase(0, npos+1);
 	
-	// extract order price
+	// extract order price and quantity
 	npos = order_string.find(" ");
 	price = stof(order_string.substr(0, npos)); 
 	order_string.erase(0, npos+1);
+	quantity = stoi(order_string); 
 	
-	cout << "id: " << id <<  " price: " << price << " action: " << action <<  endl;
+	// add order to database
+	order_book[id] = Order(id, action, price, quantity);
+	
+	#ifdef DEBUG
+	string bs[3] = {"empty", "buy ", "sell"};
+	cout << bs[action] << "\tprice: " << price << "\tquantity: " << quantity << endl;
+	#endif
 	
 }
 
@@ -61,11 +69,14 @@ void Order::ReduceOrder(string &order_string, map<string, Order> &order_book){
 	int quantity;
 	string id;
 	
-	// extract order id
+	// extract order id and quantity
 	npos = order_string.find(" ");
 	id = order_string.substr(0, npos);
 	order_string.erase(0, npos+1);
+	quantity = stoi(order_string);
 	
-	cout << order_string << endl;
-
+	#ifdef DEBUG
+	cout << "red" << "\tid:\t" << id << "\tquantity: " << quantity << endl;
+	#endif
+	
 }
