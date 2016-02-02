@@ -1,9 +1,9 @@
-/****************************Util.h**********************************/
+/****************************Util.h****************************************/
 /* Author: Ronald Macmaster
  * Date: 2/1/2016
  *
  * Description: Util driver for string manip
- *																	*/
+ *                                                                        */
 
  #include <string>
  #include <cstdlib>
