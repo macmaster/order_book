@@ -3,11 +3,13 @@
  * Date: 1/31/2016
  *
  * Order class which represents market book orders                              */
+ 
 #include <iostream>
-#include <cstdlib>
-#include <ctime>
 #include <stdexcept>
+
 #include <map>
+#include <queue>
+#include <vector>
 #include <string>
 using namespace std;
 
@@ -40,10 +42,14 @@ class Order{
       type = copy.type;
    }
    
-   
    static void AddOrder(string &order_string, map<string, Order> &order_book);
    static void ReduceOrder(string &order_string, map<string, Order> &order_book);
    
 };
 
+struct CompareOrders{
+	bool operator()(Order &lhs, Order &rhs);
+};
+
+typedef priority_queue<Order, vector<Order>, CompareOrders> Order_queue; 
 

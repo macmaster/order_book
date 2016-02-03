@@ -20,7 +20,7 @@ bin/Util.o: src/Util.cpp
 	g++ $(CFLAGS) $< -o bin/Util.o 
 	
 clean: 
-	rm pricer
+	rm bin/*.o pricer
 
 
 

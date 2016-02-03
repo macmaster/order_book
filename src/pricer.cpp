@@ -35,6 +35,8 @@ int main(int argc, char *args[]){
    int target_size = 1;
    string order_string;
    map<string, Order> order_book;
+   Order_queue buy_queue;
+   Order_queue sell_queue;
    
    // Parse int from target_size
    try{ 
@@ -45,7 +47,7 @@ int main(int argc, char *args[]){
       clog << "Target Size: " << target_size << endl; 
    }
    catch(const invalid_argument &ia){
-      cerr << "Error: Invalid Target Size " <<
+      cerr << "Error: Invalid Target Size " << 
          "(Enter an integer greater than 0!)" << endl;
    }
    
@@ -78,32 +80,33 @@ int main(int argc, char *args[]){
             default:
                throw invalid_argument("invalid order command!");
          }
-            }
-            catch(const invalid_argument &ia){
-                  cerr << ia.what() << endl;
-            }
-            catch(...){
-                  if(!time_stamp.compare("\n")){ // single newline = success
-                        cerr << "Error: Invalid order at time: " << time_stamp << endl;
-                  }
-                  else{
-                        clog << "scan finished!" << endl;
-                        // exit(0);
-                  }
-            }
+         
       }
-      
+      catch(const invalid_argument &ia){
+         cerr << ia.what() << endl;
+      }
+      catch(...){
+         if(!time_stamp.compare("\n")){ // single newline = success
+            cerr << "Error: Invalid order at time: " << time_stamp << endl;
+         }
+         else{
+            clog << "scan finished!" << endl;
+            // exit(0);
+         }
+      }
+   }
       
    #ifdef DEBUG
    //print order database
    string bs[3] = {"empty", "buy ", "sell"};
-   for( map<string, Order>::iterator itr = order_book.begin(); itr != order_book.end(); itr++){
+   for(map<string, Order>::iterator itr = order_book.begin(); itr != order_book.end(); itr++){
       Order obj = itr->second;
       cout << "id: " << obj.id << "   \t" <<  bs[obj.type];
       cout << "\tprice: " << obj.price << "\tquantity: " << obj.quantity << endl;
    }
    clog << "obj log finished!" << endl;
    #endif
+   
 }
 
 #ifdef DEBUG
@@ -124,5 +127,4 @@ void stopwatch(){
    flag ^= 1;
 }
 #endif
-
 

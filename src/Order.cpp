@@ -8,6 +8,7 @@
  #include "Util.h"
  
  #undef DEBUG
+ 
 /****************************AddOrder()**********************************/
 /* Purpose: Add an order to the order book
  * Inputs: 
@@ -75,8 +76,41 @@ void Order::ReduceOrder(string &order_string, map<string, Order> &order_book){
    order_string.erase(0, npos+1);
    quantity = stoi(order_string);
    
+   // reduce order in database (delete if quantity drops below zero
+   if(quantity >= order_book[id].quantity){
+   	order_book.erase(id);
+   }
+   else{
+   	order_book[id].quantity -= quantity; //reduce order quantity
+   }
+   
    #ifdef DEBUG
    cout << "red" << "\tid:\t" << id << "\tquantity: " << quantity << endl;
    #endif
    
 }
+
+/****************************CompareOrders()**********************************/
+/* Purpose: Compare the priority of two Order objects
+				Used for ranking in a priority queue
+ * Inputs: 
+ *   1) lhs: 1st object to compare
+	  2) rhs: 2nd object to compare
+ * Return:
+ 		 mismatch) log error and return false
+ 		 sell orders) lhs.price < rhs.price
+ 		 buy  orders) lhs.price > rhs.price
+/************************************************************************/
+bool CompareOrders::operator()(Order &lhs, Order &rhs){
+	if((lhs.type == buy)&&(rhs.type == buy)){ //buy orders
+		return lhs.price > rhs.price;
+	}	
+	else if((lhs.type == sell)&&(rhs.type == sell)){ //sell orders
+		return lhs.price < rhs.price;
+	}
+	else{ //mismatch error
+		cerr << "compare error: mismatch between order types" << endl;
+		return false;
+	}
+}
+
