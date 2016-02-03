@@ -48,8 +48,8 @@ class Order{
 };
 
 struct CompareOrders{
-	bool operator()(Order &lhs, Order &rhs);
+	bool operator()(string lhs, string rhs);
 };
 
-typedef priority_queue<Order, vector<Order>, CompareOrders> Order_queue; 
+typedef priority_queue<string, vector<string>, CompareOrders> Order_queue; 
 

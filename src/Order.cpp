@@ -101,7 +101,7 @@ void Order::ReduceOrder(string &order_string, map<string, Order> &order_book){
  		 sell orders) lhs.price < rhs.price
  		 buy  orders) lhs.price > rhs.price
 /************************************************************************/
-bool CompareOrders::operator()(Order &lhs, Order &rhs){
+bool CompareOrders::operator()(string lhs, string rhs){
 	if((lhs.type == buy)&&(rhs.type == buy)){ //buy orders
 		return lhs.price > rhs.price;
 	}	
