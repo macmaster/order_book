@@ -34,9 +34,6 @@ int main(int argc, char *args[]){
     
    int target_size = 1;
    string order_string;
-   map<string, Order> order_book;
-   Order_queue buy_queue;
-   Order_queue sell_queue;
    
    // Parse int from target_size
    try{ 
@@ -72,10 +69,10 @@ int main(int argc, char *args[]){
                   
          switch(command){
             case 'A':
-               Order::AddOrder(order_string, order_book);
+               Order::AddOrder(order_string);
                break;
             case 'R':
-               Order::ReduceOrder(order_string, order_book);
+               Order::ReduceOrder(order_string);
                break;
             default:
                throw invalid_argument("invalid order command!");
@@ -98,9 +95,24 @@ int main(int argc, char *args[]){
       
    #ifdef DEBUG
    //print order database
+   /*
    string bs[3] = {"empty", "buy ", "sell"};
-   for(map<string, Order>::iterator itr = order_book.begin(); itr != order_book.end(); itr++){
+   for(map<string, Order>::iterator itr = Order::order_book.begin(); itr != Order::order_book.end(); itr++){
       Order obj = itr->second;
+      cout << "id: " << obj.id << "   \t" <<  bs[obj.type];
+      cout << "\tprice: " << obj.price << "\tquantity: " << obj.quantity << endl;
+   }
+   */
+   
+   //print buys in order
+   string bs[3] = {"empty", "buy ", "sell"};
+   while(!Order::sell_queue.empty()){
+      string id = Order::sell_queue.top();
+      Order::sell_queue.pop();
+      if(Order::order_book.find(id) == Order::order_book.end()){
+      	continue;
+      }
+      Order obj = Order::order_book[id];
       cout << "id: " << obj.id << "   \t" <<  bs[obj.type];
       cout << "\tprice: " << obj.price << "\tquantity: " << obj.quantity << endl;
    }

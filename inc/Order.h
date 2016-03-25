@@ -11,9 +11,19 @@
 #include <queue>
 #include <vector>
 #include <string>
+
 using namespace std;
 
 enum ordertype {null, buy, sell};
+
+// functors for comparing orders
+struct CompareBuyOrders{
+	bool operator()(string lhs_id, string rhs_id);
+};
+struct CompareSellOrders{
+	bool operator()(string lhs_id, string rhs_id);
+};
+
 
 class Order{
   
@@ -22,6 +32,10 @@ class Order{
    float price;
    int quantity;
    ordertype type;
+   
+   static map<string, Order> order_book;
+   static priority_queue<string, vector<string>, CompareBuyOrders> buy_queue;
+	static priority_queue<string, vector<string>, CompareSellOrders> sell_queue;
       
    // Order constructor. default order values are invalid
    Order(string order_id = "", ordertype order_type = null, 
@@ -42,14 +56,8 @@ class Order{
       type = copy.type;
    }
    
-   static void AddOrder(string &order_string, map<string, Order> &order_book);
-   static void ReduceOrder(string &order_string, map<string, Order> &order_book);
+   static void AddOrder(string &order_string);
+   static void ReduceOrder(string &order_string);
    
 };
-
-struct CompareOrders{
-	bool operator()(string lhs, string rhs);
-};
-
-typedef priority_queue<string, vector<string>, CompareOrders> Order_queue; 
 
