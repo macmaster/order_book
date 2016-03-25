@@ -1,20 +1,21 @@
-/*******************************Order.cpp******************************************/
-/* Author: Ronald Macmaster
+/*******************************Order.cpp******************************************
+ * Author: Ronald Macmaster
  * Date: 1/31/2016
  *
- * Order class methods which perform actions on a market book                     */
+ * Order class methods which perform actions on a market book                     
+ *********************************************************************************/
  
  #include "Order.h"
  #include "Util.h"
  
  #undef DEBUG
  
-/****************************AddOrder()**********************************/
-/* Purpose: Add an order to the order book
+/********************************AddOrder()****************************************
+ * Purpose: Add an order to the order book
  * Inputs: 
  *   1) order_string: string that has the parameters to build an Order
  *   2) order_book: Database with all the current orders listed by ID  
-/************************************************************************/
+ *********************************************************************************/
 void Order::AddOrder(string &order_string, map<string, Order> &order_book){   
    
    int npos;
@@ -58,12 +59,12 @@ void Order::AddOrder(string &order_string, map<string, Order> &order_book){
    
 }
 
-/****************************ReduceOrder()**********************************/
-/* Purpose: Reduce an order already in the order book
+/****************************ReduceOrder()*********************************************
+ * Purpose: Reduce an order already in the order book
  * Inputs: 
  *   1) order_string: string that has the parameters to perform the reduce
  *   2) order_book: Database with all the current orders listed by ID  
-/**************************************************************************/
+ *************************************************************************************/
 void Order::ReduceOrder(string &order_string, map<string, Order> &order_book){   
    
    int npos;
@@ -90,8 +91,8 @@ void Order::ReduceOrder(string &order_string, map<string, Order> &order_book){
    
 }
 
-/****************************CompareOrders()**********************************/
-/* Purpose: Compare the priority of two Order objects
+/****************************CompareOrders()******************************************
+ * Purpose: Compare the priority of two Order objects
 				Used for ranking in a priority queue
  * Inputs: 
  *   1) lhs: 1st object to compare
@@ -100,7 +101,7 @@ void Order::ReduceOrder(string &order_string, map<string, Order> &order_book){
  		 mismatch) log error and return false
  		 sell orders) lhs.price < rhs.price
  		 buy  orders) lhs.price > rhs.price
-/************************************************************************/
+ ***********&&************************************************************************/
 bool CompareOrders::operator()(string lhs, string rhs){
 	if((lhs.type == buy)&&(rhs.type == buy)){ //buy orders
 		return lhs.price > rhs.price;
